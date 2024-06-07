@@ -2,8 +2,12 @@
 
 A lightweight exporter that reads sensor data from an MQTT broker and exposes it as Prometheus metrics. Designed for seamless integration with Grafana Stack Components like Loki/Promtail for monitoring and logging. Part of my upcoming Smart Garden project to automate and monitor garden systems using IoT devices.
 
-## Prerequisites
+## Disclaimer
+This is by far not meant or designed to be a generic mqtt-to-prometheus exporter. I aim to use this only for my smart gardening project. A reasonable exporter that could fit your needs better, if you want a somewhat generic approach:
+[kpetremann/mqtt-exporter](https://github.com/kpetremann/mqtt-exporter)
 
+## Prerequisites
+A selection of tools and software needed:
 - Docker
 - Docker Compose
 - Python 3.9
@@ -40,6 +44,9 @@ The project uses environment variables for configuration:
 - `PROMETHEUS_PORT`: Port for the Prometheus metrics server (default: 8000).
 - `RETRY_INTERVAL`: Interval between retry attempts to connect to the MQTT broker (default: 5 seconds).
 
+Variable coming from python-json-logger, useful for some:
+- `LOG_LEVEL`: Set the desired logging level `DEBUG`, `INFO`, `WARNING`, `ERROR` (default: `INFO`)
+
 ## Usage
 
 1. **Start the service**:
@@ -59,7 +66,10 @@ The project includes a health check script to verify the service's health. The D
 
 ## Logging
 
-Logs are structured using JSON format and are compatible with Grafana Loki for easy log aggregation and querying. The `promtail` service is used to scrape logs from Docker containers and send them to Loki.
+Logs are structured using JSON format and are compatible with Grafana Loki for easy log aggregation and querying. The `promtail` service is used to scrape logs from Docker containers and send them to Loki.  
+
+Consult [Logging Documentation](docs/logging.md) for further insights.
+
 
 ## Prometheus Metrics
 
@@ -93,7 +103,8 @@ The `docker-compose.yml` file sets up the following services:
 For detailed information about the architecture and decision-making process behind this project, please refer to the following documents:
 
 [Architecture Documentation](docs/architecture.md)  
-[Architecture Decision Records](docs/decision/)
+[Architecture Decision Records](docs/decision/)  
+_What is an ADR? [https://adr.github.io/](https://adr.github.io/)_
 ## Contributing
 
 Contributions are welcome! Please fork the repository and submit pull requests.

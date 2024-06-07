@@ -1,0 +1,4 @@
+paho-mqtt
+prometheus_client
+python-json-logger
+requests

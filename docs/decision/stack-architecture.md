@@ -1,4 +1,4 @@
-# Architecture Decision Record
+# ADR 001: Stack Architecture
 
 ## Title
 

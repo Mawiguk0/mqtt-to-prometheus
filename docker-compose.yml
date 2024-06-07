@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  mqtt_to_prometheus:
+    build: .
+    environment:
+      - MQTT_BROKER=mqtt_broker
+      - MQTT_PORT=1883
+      - MQTT_TOPIC=home/OMG_ESP32_LORA/LORAtoMQTT
+      - PROMETHEUS_PORT=8123
+      - RETRY_INTERVAL=5
+    ports:
+      - "8000:8000"
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    restart: always
+
+  promtail:
+    image: grafana/promtail:latest
+    volumes:
+      - /var/log:/var/log
+      - /var/lib/docker/containers:/var/lib/docker/containers
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./promtail-config.yml:/etc/promtail/promtail-config.yml
+
+    command: -config.file=/etc/promtail/promtail-config.yml
+    networks:
+      - default
+    ports:
+      - "9080:9080"
+    restart: always
+  
+  mqtt_broker:
+    image: eclipse-mosquitto:latest
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_config:/mosquitto/config
+    restart: always
+
+networks:
+  default:
+    name: monitoring_net
+
+volumes:
+  mosquitto_data:
+  mosquitto_config:
