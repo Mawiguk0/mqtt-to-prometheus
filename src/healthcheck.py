@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 logger.addHandler(logHandler)
 logger.setLevel(logging.INFO)
 
-PROMETHEUS_PORT = int(os.getenv('PROMETHEUS_PORT', 8123))
+PROMETHEUS_PORT = int(os.getenv('PROMETHEUS_PORT', 8000))
 
 def check_health():
     try:

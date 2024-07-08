@@ -10,7 +10,7 @@ from prometheus_client import start_http_server, Gauge
 MQTT_BROKER = os.getenv('MQTT_BROKER', 'localhost')
 MQTT_PORT = int(os.getenv('MQTT_PORT', 1883))
 MQTT_TOPIC = os.getenv('MQTT_TOPIC', 'home/OMG_ESP32_LORA/LORAtoMQTT')
-PROMETHEUS_PORT = int(os.getenv('PROMETHEUS_PORT', 8123))
+PROMETHEUS_PORT = int(os.getenv('PROMETHEUS_PORT', 8000))
 RETRY_INTERVAL = int(os.getenv('RETRY_INTERVAL', 5))  # retry interval in seconds
 
 # Configure structured logging
