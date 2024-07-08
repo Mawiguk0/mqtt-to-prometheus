@@ -1,0 +1,31 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+services:
+  - docker:19.03.12
+
+before_script:
+  - docker info
+
+build:
+  stage: build
+  script:
+    - docker build -t mqtt-to-prometheus .
+
+test:
+  stage: test
+  script:
+    - docker run --name mqtt-to-prometheus-container -d mqtt-to-prometheus
+    - docker exec mqtt-to-prometheus-container python src/healthcheck.py
+    - docker stop mqtt-to-prometheus-container
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying to production server..."
+    # Hier kannst du den Deploy-Skript hinzufügen, z.B. Docker Push zu Registry und dann Deployment zu K8s Cluster
